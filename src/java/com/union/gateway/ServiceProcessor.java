@@ -1950,7 +1950,21 @@ public class ServiceProcessor {
 		return response;
 	}
 
-	public AccountMaintenanceResponse changeCustName(String customerID, String newAccountName, String newFirstName, String newMiddleName, String newLastName, String newShortName, String newCIC, String newAddress1, String newAddress2, String newAddress3, String newCity, String newState, String newMobileNumber, String newOfficePhoneLand, String newLGA, String newMaritalStatus, String newNationality, String newCountry, String newCountryOfResidence) {
+	public AccountMaintenanceResponse changeCustName(String customerID, String newAccountName, String newFirstName, String newMiddleName, String newLastName, String newShortName, String newCIC, String newAddress1, String newAddress2, String newAddress3, String newCity, String newState, String newMobileNumber, String newOfficePhoneLand, String newLGA, String newMaritalStatus, String newNationality, String newCountry, String newCountryOfResidence,
+			String var_dateofbirth,     		
+			String var_customerprefix,    		
+			String var_mother_maiden_name,
+			String var_employer,   
+			String var_employer_address1,
+			String var_employer_address2,    
+			String var_employer_telephone,    
+			String var_designation_profession,
+			String var_tin,
+			String var_occupation,
+			String var_typeofid_card,        
+			String var_id_card_no,        
+			String var_id_iss_date,           
+			String var_id_exp_date ) {
 		String statusResponse = null;
 		String statusMessage = null;
 		GetConnection theConn = null;
@@ -1961,7 +1975,7 @@ public class ServiceProcessor {
 			theConn = new GetConnection();
 			response = new AccountMaintenanceResponse();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.chg_cust_name(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.chg_cust_name(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
 			System.out.println("Customer ID " + customerID);
 			statusUpdate.registerOutParameter(1, 4);
 			statusUpdate.registerOutParameter(21, 12);
@@ -1986,6 +2000,20 @@ public class ServiceProcessor {
 			statusUpdate.setString(20, "NG");
 			statusUpdate.setString(21, "NG");
 			statusUpdate.setString(22, "NG");
+			statusUpdate.setString(23, var_dateofbirth);
+			statusUpdate.setString(24, var_customerprefix);
+			statusUpdate.setString(25, var_mother_maiden_name);
+			statusUpdate.setString(26, var_employer);
+			statusUpdate.setString(27, var_employer_address1);
+			statusUpdate.setString(28, var_employer_address2);
+			statusUpdate.setString(29, var_employer_telephone);
+			statusUpdate.setString(30, var_designation_profession);
+			statusUpdate.setString(31, var_tin);
+			statusUpdate.setString(32, var_occupation);
+			statusUpdate.setString(33, var_typeofid_card);
+			statusUpdate.setString(34, var_id_card_no);
+			statusUpdate.setString(35, var_id_iss_date);
+			statusUpdate.setString(36, var_id_exp_date);
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			statusMessage = statusUpdate.getObject(21).toString();
