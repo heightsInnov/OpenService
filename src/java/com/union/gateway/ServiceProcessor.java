@@ -65,7 +65,10 @@ import com.unionbank.processor.GetConnection;
 import com.unionbank.processor.StateList;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
@@ -559,7 +562,7 @@ public class ServiceProcessor {
 			response = new AccountReactivationResponse();
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			System.out.println("Account No " + acctreactivateReq.getAccountnumber());
 			statusUpdate.setString(2, acctreactivateReq.getAccountnumber());
@@ -618,10 +621,10 @@ public class ServiceProcessor {
 			conn = theConn.getPrConn().getConnection();
 			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
-			System.out.println("Account No " + acctrestrictpncReq.getAccountnumber());
 			statusUpdate.setString(2, acctrestrictpncReq.getAccountnumber());
-			statusUpdate.setString(3, "4");
-			statusUpdate.setString(4, statusMessage);
+			statusUpdate.setString(3, "5");
+			statusUpdate.setString(4, "4");
+			statusUpdate.setString(5, statusMessage);
 
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
@@ -678,7 +681,8 @@ public class ServiceProcessor {
 			System.out.println("Account No " + acctrestrictpndReq.getAccountnumber());
 			statusUpdate.setString(2, acctrestrictpndReq.getAccountnumber());
 			statusUpdate.setString(3, "3");
-			statusUpdate.setString(4, statusMessage);
+			statusUpdate.setString(4, "4");
+			statusUpdate.setString(5, statusMessage);
 
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
@@ -734,10 +738,10 @@ public class ServiceProcessor {
 			statusUpdate.registerOutParameter(1, 4);
 			System.out.println("Account No " + acctrestrictReq.getAccountnumber());
 			statusUpdate.setString(2, acctrestrictReq.getAccountnumber());
-			statusUpdate.setString(3, acctrestrictReq.getStatusCode());
-
+			statusUpdate.setString(3, "4");
+			statusUpdate.setString(4, acctrestrictReq.getStatusCode());
 			System.out.println("Passed status code ====" + acctrestrictReq.getStatusCode());
-			statusUpdate.setString(4, statusMessage);
+			statusUpdate.setString(5, statusMessage);
 
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
@@ -1721,12 +1725,10 @@ public class ServiceProcessor {
 			conn = theConn.getPrConn().getConnection();
 			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
-			System.out.println("Account No " + acctNo.trim());
 			statusUpdate.setString(2, acctNo);
-			System.out.println("Account No " + statusCode.trim());
-			statusUpdate.setString(3, statusCode);
-			System.out.println("Account No " + StatusMessage);
-			statusUpdate.setString(4, StatusMessage);
+			statusUpdate.setString(3, "5");
+			statusUpdate.setString(4, statusCode);
+			statusUpdate.setString(5, StatusMessage);
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			if (statusUpdate != null) {
@@ -3889,7 +3891,7 @@ public class ServiceProcessor {
 		java.io.InputStream input = null;
 		String retValue = "";
 
-		String config_path = "/osbshare/wsconfig.properties";
+		String config_path = "C:/deploy/wsconfig.properties";
 		System.out.println("Config found on=====" + config_path);
 		try {
 			input = new java.io.FileInputStream(config_path);
@@ -3913,6 +3915,36 @@ public class ServiceProcessor {
 				}
 			}
 		}
+	}
+	
+	public static String getPropertiesValue1(String key) {
+		Properties prop = new Properties();
+		InputStream input = null;
+		String retValue = "";
+		String config_path = System.getenv("WSCONFIG_HOME") + File.separator + "wsconfig.properties";
+		System.out.println("Config found on=====" + config_path);
+		try {
+			input = new FileInputStream(config_path);
+			prop.load(input);
+			retValue = prop.getProperty(key);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return retValue;
+
 	}
 
 	public TDDetails[] getTDDetailsWithArrayOfAccountNumbers(List<String> accountNumberArray) {
