@@ -562,7 +562,7 @@ public class ServiceProcessor {
 			response = new AccountReactivationResponse();
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			System.out.println("Account No " + acctreactivateReq.getAccountnumber());
 			statusUpdate.setString(2, acctreactivateReq.getAccountnumber());
@@ -619,7 +619,7 @@ public class ServiceProcessor {
 		try {
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			statusUpdate.setString(2, acctrestrictpncReq.getAccountnumber());
 			statusUpdate.setString(3, "5");
@@ -665,6 +665,17 @@ public class ServiceProcessor {
 		return response;
 	}
 
+	private XMLGregorianCalendar DateConvert(Date date) {
+		XMLGregorianCalendar xmlGregCal = null;
+		try {
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.setTime(date);
+			xmlGregCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+		} catch (Exception e) {
+		}
+		return xmlGregCal;
+	}
+	
 	public AccountRestrictionPNDResponse restrictAcctToPND(AccountRestrictionPNDRequest acctrestrictpndReq) {
 		GetConnection theConn = null;
 		Connection conn = null;
@@ -676,7 +687,7 @@ public class ServiceProcessor {
 			response = new AccountRestrictionPNDResponse();
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			System.out.println("Account No " + acctrestrictpndReq.getAccountnumber());
 			statusUpdate.setString(2, acctrestrictpndReq.getAccountnumber());
@@ -734,7 +745,7 @@ public class ServiceProcessor {
 			response = new AccountRestrictionResponse();
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			System.out.println("Account No " + acctrestrictReq.getAccountnumber());
 			statusUpdate.setString(2, acctrestrictReq.getAccountnumber());
@@ -869,7 +880,7 @@ public class ServiceProcessor {
 			Custpersonal.setFSTNAME(firstName);
 			Custpersonal.setMIDNAME(middleName);
 			Custpersonal.setLSTNAME(lastName);
-			Custpersonal.setDOB(this.fcubsCreateDate.format(new Date(dateOfBirth)));
+			Custpersonal.setDOB(DateConvert(fcubsCreateDate.parse(this.fcubsCreateDate.format(new Date(dateOfBirth)))));
 			Custpersonal.setTITLE(title);
 			Custpersonal.setGENDR(gender);
 			Custpersonal.setSEX(gender);
@@ -1124,7 +1135,7 @@ public class ServiceProcessor {
 			System.out.println(" lastName " + lastName);
 			Custpersonal.setLSTNAME(lastName);
 			System.out.println(" xgcalDOB " + xgcalDOB);
-			Custpersonal.setDOB(this.fcubsCreateDate.format(new Date(dateOfBirth)));
+			Custpersonal.setDOB(DateConvert(fcubsCreateDate.parse(this.fcubsCreateDate.format(new Date(dateOfBirth)))));
 			System.out.println(" gender " + gender);
 			Custpersonal.setGENDR(gender);
 			System.out.println(" gender " + gender);
@@ -1506,7 +1517,7 @@ public class ServiceProcessor {
 			System.out.println(" lastName " + lastName);
 			Custpersonal.setLSTNAME(lastName);
 			System.out.println(" xgcalDOB " + dateOfBirth);
-			Custpersonal.setDOB(this.fcubsCreateDate.format(new Date(dateOfBirth)));
+			Custpersonal.setDOB(DateConvert(fcubsCreateDate.parse(this.fcubsCreateDate.format(new Date(dateOfBirth)))));
 			System.out.println(" gender " + gender);
 			Custpersonal.setGENDR(gender);
 			System.out.println(" gender " + gender);
@@ -1723,7 +1734,7 @@ public class ServiceProcessor {
 			response = new AccountMaintenanceResponse();
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			statusUpdate.setString(2, acctNo);
 			statusUpdate.setString(3, "5");
@@ -1981,6 +1992,7 @@ public class ServiceProcessor {
 			System.out.println("Customer ID " + customerID);
 			statusUpdate.registerOutParameter(1, 4);
 			statusUpdate.registerOutParameter(21, 12);
+			statusUpdate.registerOutParameter(22, OracleTypes.VARCHAR);
 			statusUpdate.setString(2, customerID.trim());
 			statusUpdate.setString(3, newAccountName);
 			statusUpdate.setString(4, newFirstName);
@@ -2000,8 +2012,6 @@ public class ServiceProcessor {
 			statusUpdate.setString(18, "NG");
 			statusUpdate.setString(19, "NG");
 			statusUpdate.setString(20, "NG");
-			statusUpdate.setString(21, "NG");
-			statusUpdate.setString(22, "NG");
 			statusUpdate.setString(23, var_dateofbirth);
 			statusUpdate.setString(24, var_customerprefix);
 			statusUpdate.setString(25, var_mother_maiden_name);

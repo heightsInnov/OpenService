@@ -8440,8 +8440,8 @@ public class CustomerFullType {
         @XmlElement(name = "LSTNAME")
         protected String lstname;
         @XmlElement(name = "DOB")
-        //@XmlSchemaType(name = "date")
-        protected String dob;
+        @XmlSchemaType(name = "date")
+        protected XMLGregorianCalendar dob;
         @XmlElement(name = "GENDR")
         protected Object gendr;
         @XmlElement(name = "SEX")
@@ -8638,7 +8638,7 @@ public class CustomerFullType {
          *     {@link XMLGregorianCalendar }
          *     
          */
-        public String getDOB() {
+        public XMLGregorianCalendar getDOB() {
             return dob;
         }
 
@@ -8650,7 +8650,7 @@ public class CustomerFullType {
          *     {@link XMLGregorianCalendar }
          *     
          */
-        public void setDOB(String value) {
+        public void setDOB(XMLGregorianCalendar value) {
             this.dob = value;
         }
 
