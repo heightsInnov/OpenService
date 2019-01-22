@@ -249,7 +249,6 @@ public class ServiceProcessor {
 				response.setResponsecode("0");
 				response.setResponsemessage(nodeLst2.item(0).getTextContent());
 			}
-
 			String formattedSOAPResponse = xmlparser.formatXML(outputString);
 			System.out.println(formattedSOAPResponse);
 		} catch (Exception e) {
@@ -259,7 +258,6 @@ public class ServiceProcessor {
 		}
 		return response;
 	}
-
 	public StandingInstructionCloseResponse closeStandingInstruction(CloseStandingInstructionRequest closeStandingInstr) {
 		StandingInstructionCloseResponse response = new StandingInstructionCloseResponse();
 		try {
@@ -292,7 +290,6 @@ public class ServiceProcessor {
 			while ((responseString = in.readLine()) != null) {
 				outputString = outputString + responseString;
 			}
-
 			System.out.println("outputString=======" + outputString.toString());
 			Document document = xmlparser.parseXmlFile(outputString);
 			NodeList nodeLst = document.getElementsByTagName("EDESC");
@@ -304,7 +301,6 @@ public class ServiceProcessor {
 				response.setResponsecode("0");
 				response.setResponsemessage(nodeLst2.item(0).getTextContent());
 			}
-
 			String formattedSOAPResponse = xmlparser.formatXML(outputString);
 			System.out.println(formattedSOAPResponse);
 		} catch (Exception e) {
@@ -314,19 +310,16 @@ public class ServiceProcessor {
 		}
 		return response;
 	}
-
 	public AccountClassTransferResponse transferAccountClass(AccountClassTransferRequest accountClassTransferRequest) {
 		AccountClassTransferResponse response = new AccountClassTransferResponse();
 		String errMsg = "";
 		GetConnection theConn = null;
 		Connection conn = null;
 		CallableStatement statusUpdate = null;
-		String statusResponse = null;
-		String statusMessage = null;
+		String statusResponse = null;String statusMessage = null;
 		try {
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-
 			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.transfer_acct_class(?,?,?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			statusUpdate.registerOutParameter(6, 12);
@@ -562,14 +555,12 @@ public class ServiceProcessor {
 			response = new AccountReactivationResponse();
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			System.out.println("Account No " + acctreactivateReq.getAccountnumber());
 			statusUpdate.setString(2, acctreactivateReq.getAccountnumber());
-			statusUpdate.setString(3, acctreactivateReq.getMiscode());
-			statusUpdate.setString(4, "5");
-			statusUpdate.setString(5, statusMessage);
-
+			statusUpdate.setString(3, "5");
+			statusUpdate.setString(4, statusMessage);
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			if (statusUpdate != null) {
@@ -619,13 +610,11 @@ public class ServiceProcessor {
 		try {
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			statusUpdate.setString(2, acctrestrictpncReq.getAccountnumber());
-			statusUpdate.setString(3, "5");
-			statusUpdate.setString(4, "4");
-			statusUpdate.setString(5, statusMessage);
-
+			statusUpdate.setString(3, "4");
+			statusUpdate.setString(4, statusMessage);
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			if (statusUpdate != null) {
@@ -687,14 +676,12 @@ public class ServiceProcessor {
 			response = new AccountRestrictionPNDResponse();
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			System.out.println("Account No " + acctrestrictpndReq.getAccountnumber());
 			statusUpdate.setString(2, acctrestrictpndReq.getAccountnumber());
 			statusUpdate.setString(3, "3");
-			statusUpdate.setString(4, "4");
-			statusUpdate.setString(5, statusMessage);
-
+			statusUpdate.setString(4, statusMessage);
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			if (statusUpdate != null) {
@@ -745,15 +732,13 @@ public class ServiceProcessor {
 			response = new AccountRestrictionResponse();
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			System.out.println("Account No " + acctrestrictReq.getAccountnumber());
 			statusUpdate.setString(2, acctrestrictReq.getAccountnumber());
-			statusUpdate.setString(3, "4");
-			statusUpdate.setString(4, acctrestrictReq.getStatusCode());
+			statusUpdate.setString(3, acctrestrictReq.getStatusCode());
 			System.out.println("Passed status code ====" + acctrestrictReq.getStatusCode());
-			statusUpdate.setString(5, statusMessage);
-
+			statusUpdate.setString(4, statusMessage);
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			if (statusUpdate != null) {
@@ -1734,12 +1719,11 @@ public class ServiceProcessor {
 			response = new AccountMaintenanceResponse();
 			theConn = new GetConnection();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.UPD_ACCT_STAT(?,?,?)}");
 			statusUpdate.registerOutParameter(1, 4);
 			statusUpdate.setString(2, acctNo);
-			statusUpdate.setString(3, "5");
-			statusUpdate.setString(4, statusCode);
-			statusUpdate.setString(5, StatusMessage);
+			statusUpdate.setString(3, statusCode);
+			statusUpdate.setString(4, StatusMessage);
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			if (statusUpdate != null) {
@@ -1962,24 +1946,9 @@ public class ServiceProcessor {
 		}
 		return response;
 	}
-
-	public AccountMaintenanceResponse changeCustName(String customerID, String newAccountName, String newFirstName, String newMiddleName, String newLastName, String newShortName, String newCIC, String newAddress1, String newAddress2, String newAddress3, String newCity, String newState, String newMobileNumber, String newOfficePhoneLand, String newLGA, String newMaritalStatus, String newNationality, String newCountry, String newCountryOfResidence,
-			String var_dateofbirth,     		
-			String var_customerprefix,    		
-			String var_mother_maiden_name,
-			String var_employer,   
-			String var_employer_address1,
-			String var_employer_address2,    
-			String var_employer_telephone,    
-			String var_designation_profession,
-			String var_tin,
-			String var_occupation,
-			String var_typeofid_card,        
-			String var_id_card_no,        
-			String var_id_iss_date,           
-			String var_id_exp_date ) {
-		String statusResponse = null;
-		String statusMessage = null;
+   public AccountMaintenanceResponse changeCustName(String customerID, String newAccountName, String newFirstName, String newMiddleName, String newLastName, String newShortName, String newCIC, String newAddress1, String newAddress2, String newAddress3, String newCity, String newState, String newMobileNumber, String newOfficePhoneLand, String newLGA, String newMaritalStatus, String newNationality, String newCountry, String newCountryOfResidence)
+   {
+     String statusResponse = null;String statusMessage = null;
 		GetConnection theConn = null;
 		Connection conn = null;
 		CallableStatement statusUpdate = null;
@@ -1988,11 +1957,10 @@ public class ServiceProcessor {
 			theConn = new GetConnection();
 			response = new AccountMaintenanceResponse();
 			conn = theConn.getPrConn().getConnection();
-			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.chg_cust_name(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.chg_cust_name(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
 			System.out.println("Customer ID " + customerID);
 			statusUpdate.registerOutParameter(1, 4);
 			statusUpdate.registerOutParameter(21, 12);
-			statusUpdate.registerOutParameter(22, OracleTypes.VARCHAR);
 			statusUpdate.setString(2, customerID.trim());
 			statusUpdate.setString(3, newAccountName);
 			statusUpdate.setString(4, newFirstName);
@@ -2012,20 +1980,8 @@ public class ServiceProcessor {
 			statusUpdate.setString(18, "NG");
 			statusUpdate.setString(19, "NG");
 			statusUpdate.setString(20, "NG");
-			statusUpdate.setString(23, var_dateofbirth);
-			statusUpdate.setString(24, var_customerprefix);
-			statusUpdate.setString(25, var_mother_maiden_name);
-			statusUpdate.setString(26, var_employer);
-			statusUpdate.setString(27, var_employer_address1);
-			statusUpdate.setString(28, var_employer_address2);
-			statusUpdate.setString(29, var_employer_telephone);
-			statusUpdate.setString(30, var_designation_profession);
-			statusUpdate.setString(31, var_tin);
-			statusUpdate.setString(32, var_occupation);
-			statusUpdate.setString(33, var_typeofid_card);
-			statusUpdate.setString(34, var_id_card_no);
-			statusUpdate.setString(35, var_id_iss_date);
-			statusUpdate.setString(36, var_id_exp_date);
+			statusUpdate.setString(21, "NG");
+			statusUpdate.setString(22, "NG");
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			statusMessage = statusUpdate.getObject(21).toString();
@@ -3895,7 +3851,6 @@ public class ServiceProcessor {
 	public void setHEADER_ACCT_REOPEN_OPERATION(String HEADER_ACCT_REOPEN_OPERATION) {
 		this.HEADER_ACCT_REOPEN_OPERATION = HEADER_ACCT_REOPEN_OPERATION;
 	}
-
 	public static String getPropertiesValue(String key) {
 		Properties prop = new Properties();
 		java.io.InputStream input = null;
@@ -3926,43 +3881,12 @@ public class ServiceProcessor {
 			}
 		}
 	}
-	
-	public static String getPropertiesValue1(String key) {
-		Properties prop = new Properties();
-		InputStream input = null;
-		String retValue = "";
-		String config_path = System.getenv("WSCONFIG_HOME") + File.separator + "wsconfig.properties";
-		System.out.println("Config found on=====" + config_path);
-		try {
-			input = new FileInputStream(config_path);
-			prop.load(input);
-			retValue = prop.getProperty(key);
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-		}
-		return retValue;
-
-	}
-
-	public TDDetails[] getTDDetailsWithArrayOfAccountNumbers(List<String> accountNumberArray) {
+   public TDDetails[] getTDDetailsWithArrayOfAccountNumbers(List<String> accountNumberArray)
+   {
 		GetConnection theConn = null;
 		TDDetails[] var = null;
 		Connection conn = null;
 		CallableStatement tdDetails = null;
-
 		ArrayList activityLog = null;
 		ResultSet rs = null;
 		String[] columnData = null;
@@ -4030,7 +3954,6 @@ public class ServiceProcessor {
 				columnData[38] = rs.getString("accrued_interest");
 				columnData[39] = rs.getString("customer_name");
 				columnData[40] = rs.getString("dflt_settle_ac");
-
 				activityLog.add(columnData);
 			}
 			if (activityLog.size() >= 1) {
@@ -4120,84 +4043,4 @@ public class ServiceProcessor {
 		}
 		return var;
 	}
-
-	public List<StandingInstructionDetailsResponse> getStandingInstruction(String acctNo) {
-		GetConnection theConn = null;
-		Connection conn = null;
-		CallableStatement getsi = null;
-		List<StandingInstructionDetailsResponse> response = new ArrayList<StandingInstructionDetailsResponse>();
-		StandingInstructionDetailsResponse stdinst = null;
-		ResultSet rs = null;
-		try {
-			theConn = new GetConnection();
-			conn = theConn.getPrConn().getConnection();
-			getsi = conn.prepareCall("{call FCUBSLIVE.ubn_account_servicing_pkg.getsi(?,?)}");
-			getsi.registerOutParameter(1, OracleTypes.CURSOR);
-			getsi.setString(2, acctNo);
-			getsi.execute();
-			rs = (ResultSet) getsi.getObject(1);
-			if (rs != null) {
-				response = new ArrayList<StandingInstructionDetailsResponse>();
-				while (rs.next()) {
-					stdinst = new StandingInstructionDetailsResponse();
-					stdinst.setResponse_code("00");
-					stdinst.setContract_ref_no(rs.getString("CONTRACT_REF_NO"));
-					stdinst.setInstruction_no(rs.getString("INSTRUCTION_NO"));
-					stdinst.setProduct_code(rs.getString("PRODUCT_CODE"));
-					stdinst.setBranch_code(rs.getString("BRANCH_CODE"));
-					stdinst.setAccount_number(rs.getString("ACCOUNT NUMBER"));
-					stdinst.setAccount_name(rs.getString("ACCOUNT NAME"));
-					stdinst.setCustomer_id(rs.getString("CUSTOMER_ID"));
-					stdinst.setCcy(rs.getString("CCY"));
-					stdinst.setPrimary_acct(rs.getString("PRIMARY ACCT"));
-					stdinst.setExec_mth(rs.getString("EXEC_MTHS"));
-					stdinst.setSi_type(rs.getString("SI_TYPE"));
-					stdinst.setSi_expiry_date(rs.getString("SI_EXPIRY_DATE"));
-					stdinst.setNext_value_date(rs.getString("NEXT_VALUE_DATE"));
-					stdinst.setSi_amt(rs.getString("SI_AMT"));
-					stdinst.setCcy(rs.getString("INTERNAL_REMARKS"));
-
-					response.add(stdinst);
-				}
-			} else {
-				stdinst.setResponse_code("99");
-				response.add(stdinst);
-			}
-			if (rs != null) {
-				rs.close();
-			}
-			if (getsi != null) {
-				getsi.close();
-			}
-			if (conn != null) {
-				conn.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (getsi != null) {
-					getsi.close();
-				}
-				if (rs != null) {
-					rs.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-		}
-		return response;
-	}
-	
-//	public static void main(String[] args) {
-//		 ServiceProcessor ss = new ServiceProcessor();
-//		 List<StandingInstructionDetailsResponse> s = ss.getStandingInstruction("0047819468");
-//		 System.out.println(s);
-//		 
-//	 }
 }
