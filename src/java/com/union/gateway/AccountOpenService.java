@@ -136,7 +136,7 @@ public class AccountOpenService {
 		this.createstandinginstructionrequests = createstandinginstructionrequest;
 		AestheticsUtil util = new AestheticsUtil();
 		CreateStandingInstructionResponse response = new CreateStandingInstructionResponse();
-		ServiceProcessor serviceProcessor = new ServiceProcessor();
+		ServiceProcessorOF serviceProcessor = new ServiceProcessorOF();
 		try {
 			response = serviceProcessor.createStandingInstruction(createstandinginstructionrequest);
 			System.out.println("Response successfully created!");
