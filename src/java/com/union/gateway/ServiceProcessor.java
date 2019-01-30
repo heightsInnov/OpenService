@@ -1657,7 +1657,7 @@ public class ServiceProcessor {
 			Custcorp.setCADDR1(address);
 			Custcorp.setCADDR2(address2);
 			Custcorp.setCADDR3(address3);
-			Custcorp.setINCORPDT(this.fcubsCreateDate.format(new Date(dateOfBirth)));
+			Custcorp.setINCORPDT(DateConvert(fcubsCreateDate.parse(this.fcubsCreateDate.format(new Date(dateOfBirth)))));
 			Custcorp.setINCORPCNTRY(country);
 			Custcorp.setREGADD1(address);
 			Custcorp.setREGADD2(address2);
@@ -1946,7 +1946,8 @@ public class ServiceProcessor {
 		}
 		return response;
 	}
-   public AccountMaintenanceResponse changeCustName(String customerID, String newAccountName, String newFirstName, String newMiddleName, String newLastName, String newShortName, String newCIC, String newAddress1, String newAddress2, String newAddress3, String newCity, String newState, String newMobileNumber, String newOfficePhoneLand, String newLGA, String newMaritalStatus, String newNationality, String newCountry, String newCountryOfResidence)
+   
+	public AccountMaintenanceResponse changeCustName(String customerID, String newAccountName, String newFirstName, String newMiddleName, String newLastName, String newShortName, String newCIC, String newAddress1, String newAddress2, String newAddress3, String newCity, String newState, String newMobileNumber, String newOfficePhoneLand, String newLGA, String newMaritalStatus, String newNationality, String newCountry, String newCountryOfResidence)
    {
      String statusResponse = null;String statusMessage = null;
 		GetConnection theConn = null;
@@ -3851,6 +3852,7 @@ public class ServiceProcessor {
 	public void setHEADER_ACCT_REOPEN_OPERATION(String HEADER_ACCT_REOPEN_OPERATION) {
 		this.HEADER_ACCT_REOPEN_OPERATION = HEADER_ACCT_REOPEN_OPERATION;
 	}
+	
 	public static String getPropertiesValue(String key) {
 		Properties prop = new Properties();
 		java.io.InputStream input = null;
@@ -3881,7 +3883,8 @@ public class ServiceProcessor {
 			}
 		}
 	}
-   public TDDetails[] getTDDetailsWithArrayOfAccountNumbers(List<String> accountNumberArray)
+   
+	public TDDetails[] getTDDetailsWithArrayOfAccountNumbers(List<String> accountNumberArray)
    {
 		GetConnection theConn = null;
 		TDDetails[] var = null;

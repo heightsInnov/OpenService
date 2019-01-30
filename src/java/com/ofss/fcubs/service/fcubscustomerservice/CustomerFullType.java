@@ -5731,8 +5731,8 @@ public class CustomerFullType {
         @XmlElement(name = "AMTCCY")
         protected String amtccy;
         @XmlElement(name = "INCORPDT")
-        //@XmlSchemaType(name = "date")
-        protected String incorpdt;
+        @XmlSchemaType(name = "date")
+        protected XMLGregorianCalendar incorpdt;
         @XmlElement(name = "CAPITAL")
         protected BigDecimal capital;
         @XmlElement(name = "NETWORTH")
@@ -5957,7 +5957,7 @@ public class CustomerFullType {
          *     {@link XMLGregorianCalendar }
          *     
          */
-        public String getINCORPDT() {
+        public XMLGregorianCalendar getINCORPDT() {
             return incorpdt;
         }
 
@@ -5969,7 +5969,7 @@ public class CustomerFullType {
          *     {@link XMLGregorianCalendar }
          *     
          */
-        public void setINCORPDT(String value) {
+        public void setINCORPDT(XMLGregorianCalendar value) {
             this.incorpdt = value;
         }
 
