@@ -12,6 +12,7 @@ import com.union.bof.dao.CreateStandingInstructionRequest;
 import com.union.bof.dao.CreateStandingInstructionResponse;
 import com.union.bof.dao.StandingInstructionDetailsResponse;
 import com.union.bof.utilities.AestheticsUtil;
+import static com.union.gateway.ServiceProcessor.getPropertiesValue;
 import com.unionbank.processor.GetConnection;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -275,7 +276,8 @@ public class ServiceProcessorOF {
 			String responseString = "";
 			String outputString = "";
 			sp.paramload();
-			System.out.println("sipoint after param load in SI=====" + this.sipoint);
+			this.sipoint = getPropertiesValue("sipoint");
+			System.out.println("sipoint after param load in SI=====" +this.sipoint);
 			URL url = null;
 			url = new URL(this.sipoint.substring(0, this.sipoint.length() - 5));
 			java.net.URLConnection connection = null;
