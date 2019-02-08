@@ -144,7 +144,7 @@ public class AccountOpenService {
 			e.printStackTrace();
 			response.setInstrno("SI" + util.formatString(util.getCurrentTimeStamp().toString()).replaceAll("-", ""));
 			response.setResponsecode("0");
-			response.setResponsemessage("Standing Instruction Creation Successful");
+			response.setResponsemessage("Standing Instruction Creation UnSuccessful");
 		}
 		return response;
 	}

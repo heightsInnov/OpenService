@@ -308,8 +308,8 @@ public class ServiceProcessorOF {
 					+ "               <PRODUCT_CODE>"+createRequest.getProd()+"</PRODUCT_CODE>\n"
 					+ "               <PRODUCT_TYPE>P</PRODUCT_TYPE>\n"
 					+ "               <CAL_HOL_EXCP>F</CAL_HOL_EXCP>\n"
-					+ "               <EXEC_DAYS>"+createRequest.getExcdays()+"</EXEC_DAYS> \n"
-					+ "                <FRSTEXCDT>"+createRequest.getFirstexcdate()+"</FRSTEXCDT>\n"
+					+"				  <EXEC_MTHS>"+createRequest.getExcmonths()+"</EXEC_MTHS>"
+					+ "               <FRSTEXCDT>"+createRequest.getFirstexcdate()+"</FRSTEXCDT>\n"
 					+ "               <MONTH_END_FLAG>N</MONTH_END_FLAG>\n"
 					+ "               <COUNTERPARTY>"+createRequest.getCounterparty()+"</COUNTERPARTY>\n"
 					+ "               <MAKER_ID>WEBSVCS</MAKER_ID>\n"
@@ -317,15 +317,15 @@ public class ServiceProcessorOF {
 					+ "               <CHECKER_ID>WEBSVCS</CHECKER_ID>\n"
 					+ "               <CHECKER_DT_STAMP>"+currDate+"</CHECKER_DT_STAMP>\n"
 					+ "               <Contractmaster>\n"
-					+ "                  <APPLY_CHG_SUXS>Y</APPLY_CHG_SUXS>\n"
+					+ "                  <APPLY_CHG_SUXS>"+createRequest.getApply_chg_suxs()+"</APPLY_CHG_SUXS>\n"
 					+ "                  <APPLY_CHG_PEXC>N</APPLY_CHG_PEXC>\n"
 					+ "                  <APPLY_CHG_REJT>N</APPLY_CHG_REJT>\n"
-					+ "                  <DR_ACC_BR>"+createRequest.getBranchCode()+"</DR_ACC_BR>\n"
+					+ "                  <DR_ACC_BR>"+createRequest.getDebitBranchCode()+"</DR_ACC_BR>\n"
 					+ "                  <DR_ACCOUNT>"+createRequest.getDebitAccountNo()+"</DR_ACCOUNT>\n"
 					+ "                  <DR_ACC_CCY>"+createRequest.getDebitAccountcurrency()+"</DR_ACC_CCY>\n"
 					+ "                  <SI_AMT_CCY/>\n"
 					+ "                  <SI_AMT>"+createRequest.getSiAmount()+"</SI_AMT>\n"
-					+ "                  <CR_ACC_BR>"+createRequest.getAccountOpeningBranch()+"</CR_ACC_BR>\n"
+					+ "                  <CR_ACC_BR>"+createRequest.getCreditBranchCode()+"</CR_ACC_BR>\n"
 					+ "                  <CR_ACCOUNT>"+createRequest.getCreditAccountNo()+"</CR_ACCOUNT>\n"
 					+ "                  <CR_ACC_CCY>"+createRequest.getCreditAccountcurrency()+"</CR_ACC_CCY>\n"
 					+ "                  <INTERNAL_REMARKS>"+createRequest.getRemarks()+"</INTERNAL_REMARKS>\n"
@@ -333,9 +333,7 @@ public class ServiceProcessorOF {
 					+ "                  <TANKED_STAT>N</TANKED_STAT>\n"
 					+ "                  <AUTH_STATUS>A</AUTH_STATUS>\n"
 					+ "                  <Misdetails>\n"
-					+ "                     <COMPMIS2/>\n"
-					+ "                     <COMPMIS4/>\n"
-					+ "                     <COMPMIS8/>\n"
+					+"					 <TXNMIS1>"+createRequest.getTxnmis1()+"</TXNMIS1>"
 					+ "                  </Misdetails>\n"
 					+ "               </Contractmaster>\n"
 					+ "               <Charge-Details>\n"
@@ -375,6 +373,9 @@ public class ServiceProcessorOF {
 			} else if (nodeLst2.getLength() > 0) {
 				response.setResponsecode("0");
 				response.setResponsemessage(nodeLst2.item(0).getTextContent());
+			}else{
+				response.setResponsecode("404");
+				response.setResponsemessage("Bad Request!");
 			}
 			String formattedSOAPResponse = xmlparser.formatXML(outputString);
 			System.out.println(formattedSOAPResponse);
