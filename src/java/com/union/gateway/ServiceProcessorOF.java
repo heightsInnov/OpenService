@@ -10,7 +10,9 @@ import com.union.bof.dao.AccountReactivationRequest;
 import com.union.bof.dao.AccountReactivationResponse;
 import com.union.bof.dao.CreateStandingInstructionRequest;
 import com.union.bof.dao.CreateStandingInstructionResponse;
+import com.union.bof.dao.StandingInstructionCloseResponse;
 import com.union.bof.dao.StandingInstructionDetailsResponse;
+import com.union.bof.dao.changeCustDetailsOFRequest;
 import com.union.bof.utilities.AestheticsUtil;
 import static com.union.gateway.ServiceProcessor.getPropertiesValue;
 import com.unionbank.processor.GetConnection;
@@ -42,69 +44,57 @@ public class ServiceProcessorOF {
 	ServiceProcessor sp = new ServiceProcessor();
 	private String sipoint = null;
 
-	public AccountMaintenanceResponse changeCustNameOF(String customerID, String newAccountName, String newFirstName, String newMiddleName, String newLastName, String newShortName, String newCIC, String newAddress1, String newAddress2, String newAddress3, String newCity, String newState, String newMobileNumber, String newOfficePhoneLand, String newLGA, String newMaritalStatus, String newNationality, String newCountry, String newCountryOfResidence,
-			String var_dateofbirth,
-			String var_customerprefix,
-			String var_mother_maiden_name,
-			String var_employer,
-			String var_employer_address1,
-			String var_employer_address2,
-			String var_employer_telephone,
-			String var_designation_profession,
-			String var_tin,
-			String var_occupation,
-			String var_typeofid_card,
-			String var_id_card_no,
-			String var_id_iss_date,
-			String var_id_exp_date) {
+	public AccountMaintenanceResponse changeCustNameOF(changeCustDetailsOFRequest changeCustDetailsRequest) {
 		String statusResponse = null;
 		String statusMessage = null;
 		GetConnection theConn = null;
 		Connection conn = null;
 		CallableStatement statusUpdate = null;
 		AccountMaintenanceResponse response = null;
+		System.out.println("***********DOB*********" + changeCustDetailsRequest.getVar_dateofbirth());
 		try {
 			theConn = new GetConnection();
 			response = new AccountMaintenanceResponse();
 			conn = theConn.getPrConn().getConnection();
+//			conn = getPrConn();
 			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.chg_cust_name_of(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-			System.out.println("Customer ID " + customerID);
-			statusUpdate.registerOutParameter(1, 4);
-			statusUpdate.registerOutParameter(21, 12);
+			System.out.println("Customer ID " + changeCustDetailsRequest.getCustomerID());
+			statusUpdate.registerOutParameter(1, OracleTypes.VARCHAR);
+			statusUpdate.registerOutParameter(21, OracleTypes.VARCHAR);
 			statusUpdate.registerOutParameter(22, OracleTypes.VARCHAR);
-			statusUpdate.setString(2, customerID.trim());
-			statusUpdate.setString(3, newAccountName);
-			statusUpdate.setString(4, newFirstName);
-			statusUpdate.setString(5, newMiddleName);
-			statusUpdate.setString(6, newLastName);
-			statusUpdate.setString(7, newShortName);
-			statusUpdate.setString(8, newCIC);
-			statusUpdate.setString(9, newAddress1);
-			statusUpdate.setString(10, newAddress2);
-			statusUpdate.setString(11, newAddress3);
-			statusUpdate.setString(12, newCity);
-			statusUpdate.setString(13, newState);
-			statusUpdate.setString(14, newMobileNumber);
-			statusUpdate.setString(15, newOfficePhoneLand);
-			statusUpdate.setString(16, newLGA);
-			statusUpdate.setString(17, newMaritalStatus);
+			statusUpdate.setString(2, changeCustDetailsRequest.getCustomerID().trim());
+			statusUpdate.setString(3, changeCustDetailsRequest.getNewAccountName().trim());
+			statusUpdate.setString(4, changeCustDetailsRequest.getNewFirstName().trim());
+			statusUpdate.setString(5, changeCustDetailsRequest.getNewMiddleName().trim());
+			statusUpdate.setString(6, changeCustDetailsRequest.getNewLastName().trim());
+			statusUpdate.setString(7, changeCustDetailsRequest.getNewShortName().trim());
+			statusUpdate.setString(8, changeCustDetailsRequest.getNewCIC().trim());
+			statusUpdate.setString(9, changeCustDetailsRequest.getNewAddress1().trim());
+			statusUpdate.setString(10, changeCustDetailsRequest.getNewAddress2().trim());
+			statusUpdate.setString(11, changeCustDetailsRequest.getNewAddress3().trim());
+			statusUpdate.setString(12, changeCustDetailsRequest.getNewCity().trim());
+			statusUpdate.setString(13, changeCustDetailsRequest.getNewState().trim());
+			statusUpdate.setString(14, changeCustDetailsRequest.getNewMobileNumber().trim());
+			statusUpdate.setString(15, changeCustDetailsRequest.getNewOfficePhoneLand().trim());
+			statusUpdate.setString(16, changeCustDetailsRequest.getNewLGA().trim());
+			statusUpdate.setString(17, changeCustDetailsRequest.getNewMaritalStatus().trim());
 			statusUpdate.setString(18, "NG");
 			statusUpdate.setString(19, "NG");
 			statusUpdate.setString(20, "NG");
-			statusUpdate.setString(23, var_dateofbirth);
-			statusUpdate.setString(24, var_customerprefix);
-			statusUpdate.setString(25, var_mother_maiden_name);
-			statusUpdate.setString(26, var_employer);
-			statusUpdate.setString(27, var_employer_address1);
-			statusUpdate.setString(28, var_employer_address2);
-			statusUpdate.setString(29, var_employer_telephone);
-			statusUpdate.setString(30, var_designation_profession);
-			statusUpdate.setString(31, var_tin);
-			statusUpdate.setString(32, var_occupation);
-			statusUpdate.setString(33, var_typeofid_card);
-			statusUpdate.setString(34, var_id_card_no);
-			statusUpdate.setString(35, var_id_iss_date);
-			statusUpdate.setString(36, var_id_exp_date);
+			statusUpdate.setString(23, convertDate(changeCustDetailsRequest.getVar_dateofbirth().trim()));
+			statusUpdate.setString(24, changeCustDetailsRequest.getVar_customerprefix().trim());
+			statusUpdate.setString(25, changeCustDetailsRequest.getVar_mother_maiden_name().trim());
+			statusUpdate.setString(26, changeCustDetailsRequest.getVar_employer().trim());
+			statusUpdate.setString(27, changeCustDetailsRequest.getVar_employer_address1().trim());
+			statusUpdate.setString(28, changeCustDetailsRequest.getVar_employer_address2().trim());
+			statusUpdate.setString(29, changeCustDetailsRequest.getVar_employer_telephone().trim());
+			statusUpdate.setString(30, changeCustDetailsRequest.getVar_designation_profession().trim());
+			statusUpdate.setString(31, changeCustDetailsRequest.getVar_tin().trim());
+			statusUpdate.setString(32, changeCustDetailsRequest.getVar_occupation().trim());
+			statusUpdate.setString(33, changeCustDetailsRequest.getVar_typeofid_card().trim());
+			statusUpdate.setString(34, changeCustDetailsRequest.getVar_id_card_no().trim());
+			statusUpdate.setString(35, changeCustDetailsRequest.getVar_id_iss_date().trim());
+			statusUpdate.setString(36, changeCustDetailsRequest.getVar_id_exp_date().trim());
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			statusMessage = statusUpdate.getObject(21).toString();
@@ -277,7 +267,7 @@ public class ServiceProcessorOF {
 			String outputString = "";
 			sp.paramload();
 			this.sipoint = getPropertiesValue("sipoint");
-			System.out.println("sipoint after param load in SI=====" +this.sipoint);
+			System.out.println("sipoint after param load in SI=====" + this.sipoint);
 			URL url = null;
 			url = new URL(this.sipoint.substring(0, this.sipoint.length() - 5));
 			java.net.URLConnection connection = null;
@@ -294,7 +284,7 @@ public class ServiceProcessorOF {
 					+ "            <MSGID/>\n"
 					+ "            <CORRELID>124578955</CORRELID>\n"
 					+ "            <USERID>WEBSVCS</USERID>\n"
-					+ "            <BRANCH>"+createRequest.getBranchCode()+"</BRANCH>\n"
+					+ "            <BRANCH>" + createRequest.getBranchCode() + "</BRANCH>\n"
 					+ "            <MODULEID>SI</MODULEID>\n"
 					+ "            <SERVICE>FCUBSSIService</SERVICE>\n"
 					+ "            <OPERATION>CreateContract</OPERATION>\n"
@@ -305,35 +295,35 @@ public class ServiceProcessorOF {
 					+ "         </FCUBS_HEADER>\n"
 					+ "         <FCUBS_BODY>\n"
 					+ "            <Sitbinstruction-Full>\n"
-					+ "               <PRODUCT_CODE>"+createRequest.getProd()+"</PRODUCT_CODE>\n"
+					+ "               <PRODUCT_CODE>" + createRequest.getProd() + "</PRODUCT_CODE>\n"
 					+ "               <PRODUCT_TYPE>P</PRODUCT_TYPE>\n"
 					+ "               <CAL_HOL_EXCP>F</CAL_HOL_EXCP>\n"
-					+"				  <EXEC_MTHS>"+createRequest.getExcmonths()+"</EXEC_MTHS>"
-					+ "               <FRSTEXCDT>"+createRequest.getFirstexcdate()+"</FRSTEXCDT>\n"
+					+ "				  <EXEC_MTHS>" + createRequest.getExcmonths() + "</EXEC_MTHS>"
+					+ "               <FRSTEXCDT>" + createRequest.getFirstexcdate() + "</FRSTEXCDT>\n"
 					+ "               <MONTH_END_FLAG>N</MONTH_END_FLAG>\n"
-					+ "               <COUNTERPARTY>"+createRequest.getCounterparty()+"</COUNTERPARTY>\n"
+					+ "               <COUNTERPARTY>" + createRequest.getCounterparty() + "</COUNTERPARTY>\n"
 					+ "               <MAKER_ID>WEBSVCS</MAKER_ID>\n"
-					+ "               <MAKER_DT_STAMP>"+currDate+"</MAKER_DT_STAMP>\n"
+					+ "               <MAKER_DT_STAMP>" + currDate + "</MAKER_DT_STAMP>\n"
 					+ "               <CHECKER_ID>WEBSVCS</CHECKER_ID>\n"
-					+ "               <CHECKER_DT_STAMP>"+currDate+"</CHECKER_DT_STAMP>\n"
+					+ "               <CHECKER_DT_STAMP>" + currDate + "</CHECKER_DT_STAMP>\n"
 					+ "               <Contractmaster>\n"
-					+ "                  <APPLY_CHG_SUXS>"+createRequest.getApply_chg_suxs()+"</APPLY_CHG_SUXS>\n"
+					+ "                  <APPLY_CHG_SUXS>" + createRequest.getApply_chg_suxs() + "</APPLY_CHG_SUXS>\n"
 					+ "                  <APPLY_CHG_PEXC>N</APPLY_CHG_PEXC>\n"
 					+ "                  <APPLY_CHG_REJT>N</APPLY_CHG_REJT>\n"
-					+ "                  <DR_ACC_BR>"+createRequest.getDebitBranchCode()+"</DR_ACC_BR>\n"
-					+ "                  <DR_ACCOUNT>"+createRequest.getDebitAccountNo()+"</DR_ACCOUNT>\n"
-					+ "                  <DR_ACC_CCY>"+createRequest.getDebitAccountcurrency()+"</DR_ACC_CCY>\n"
+					+ "                  <DR_ACC_BR>" + createRequest.getDebitBranchCode() + "</DR_ACC_BR>\n"
+					+ "                  <DR_ACCOUNT>" + createRequest.getDebitAccountNo() + "</DR_ACCOUNT>\n"
+					+ "                  <DR_ACC_CCY>" + createRequest.getDebitAccountcurrency() + "</DR_ACC_CCY>\n"
 					+ "                  <SI_AMT_CCY/>\n"
-					+ "                  <SI_AMT>"+createRequest.getSiAmount()+"</SI_AMT>\n"
-					+ "                  <CR_ACC_BR>"+createRequest.getCreditBranchCode()+"</CR_ACC_BR>\n"
-					+ "                  <CR_ACCOUNT>"+createRequest.getCreditAccountNo()+"</CR_ACCOUNT>\n"
-					+ "                  <CR_ACC_CCY>"+createRequest.getCreditAccountcurrency()+"</CR_ACC_CCY>\n"
-					+ "                  <INTERNAL_REMARKS>"+createRequest.getRemarks()+"</INTERNAL_REMARKS>\n"
-					+ "                  <SI_EXPIRY_DATE>"+createRequest.getSiExpiryDate()+"</SI_EXPIRY_DATE>\n"
+					+ "                  <SI_AMT>" + createRequest.getSiAmount() + "</SI_AMT>\n"
+					+ "                  <CR_ACC_BR>" + createRequest.getCreditBranchCode() + "</CR_ACC_BR>\n"
+					+ "                  <CR_ACCOUNT>" + createRequest.getCreditAccountNo() + "</CR_ACCOUNT>\n"
+					+ "                  <CR_ACC_CCY>" + createRequest.getCreditAccountcurrency() + "</CR_ACC_CCY>\n"
+					+ "                  <INTERNAL_REMARKS>" + createRequest.getRemarks() + "</INTERNAL_REMARKS>\n"
+					+ "                  <SI_EXPIRY_DATE>" + createRequest.getSiExpiryDate() + "</SI_EXPIRY_DATE>\n"
 					+ "                  <TANKED_STAT>N</TANKED_STAT>\n"
 					+ "                  <AUTH_STATUS>A</AUTH_STATUS>\n"
 					+ "                  <Misdetails>\n"
-					+"					 <TXNMIS1>"+createRequest.getTxnmis1()+"</TXNMIS1>"
+					+ "					 <TXNMIS1>" + createRequest.getTxnmis1() + "</TXNMIS1>"
 					+ "                  </Misdetails>\n"
 					+ "               </Contractmaster>\n"
 					+ "               <Charge-Details>\n"
@@ -373,7 +363,7 @@ public class ServiceProcessorOF {
 			} else if (nodeLst2.getLength() > 0) {
 				response.setResponsecode("0");
 				response.setResponsemessage(nodeLst2.item(0).getTextContent());
-			}else{
+			} else {
 				response.setResponsecode("404");
 				response.setResponsemessage("Bad Request!");
 			}
@@ -386,4 +376,106 @@ public class ServiceProcessorOF {
 		}
 		return response;
 	}
+
+	public StandingInstructionCloseResponse closeStandingInstructionOF(String instrumentNo) {
+		StandingInstructionCloseResponse response = new StandingInstructionCloseResponse();
+		try {
+			AestheticsUtil xmlparser = new AestheticsUtil();
+			String responseString = "";
+			String outputString = "";
+			sp.paramload();
+			this.sipoint = getPropertiesValue("sipoint");
+			System.out.println("sipoint after param load in SI=====" + this.sipoint);
+			URL url = null;
+			url = new URL(this.sipoint.substring(0, this.sipoint.length() - 5));
+			java.net.URLConnection connection = null;
+			connection = url.openConnection();
+			HttpURLConnection httpConn = (HttpURLConnection) connection;
+			ByteArrayOutputStream bout = new ByteArrayOutputStream();
+			String xmlInput = "";
+			byte[] buffer = new byte[xmlInput.length()];
+			buffer = xmlInput.getBytes();
+			bout.write(buffer);
+			byte[] b = bout.toByteArray();
+			httpConn.setRequestProperty("Content-Length", String.valueOf(b.length));
+			httpConn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+			httpConn.setRequestMethod("POST");
+			httpConn.setDoOutput(true);
+			httpConn.setDoInput(true);
+			OutputStream out = httpConn.getOutputStream();
+			out.write(b);
+			out.close();
+			InputStreamReader isr = new InputStreamReader(httpConn.getInputStream());
+			BufferedReader in = new BufferedReader(isr);
+			while ((responseString = in.readLine()) != null) {
+				outputString = outputString + responseString;
+			}
+
+			System.out.println("outputString=======" + outputString.toString());
+			Document document = xmlparser.parseXmlFile(outputString);
+			NodeList nodeLst = document.getElementsByTagName("EDESC");
+			NodeList nodeLst2 = document.getElementsByTagName("WDESC");
+			if (nodeLst.getLength() > 0) {
+				response.setResponsecode("1");
+				response.setResponsemessage(nodeLst.item(0).getTextContent());
+			} else if (nodeLst2.getLength() > 0) {
+				response.setResponsecode("0");
+				response.setResponsemessage(nodeLst2.item(0).getTextContent());
+			}
+			String formattedSOAPResponse = xmlparser.formatXML(outputString);
+			System.out.println(formattedSOAPResponse);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setResponsecode("1");
+			response.setResponsemessage("Service Error");
+		}
+		return response;
+	}
+
+	private String convertDate(String strDate) {
+		String convdate = "";
+		String dtformat = "dd-MM-yyyy";
+		SimpleDateFormat sdf = new SimpleDateFormat(dtformat);
+		try {
+			Date dt = sdf.parse(strDate);
+			SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MMM-yyyy");
+			convdate = sdf2.format(dt);
+			System.out.println(convdate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return convdate;
+	}
+
+//	public Connection getPrConn() {
+//		Connection connection = null;
+//		try {
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		try {
+//			connection = DriverManager.getConnection("jdbc:oracle:thin:@//10.8.64.72:1521/ubsoct24", "FCUBSLIVE", "Flexcube_24");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return connection;
+//	}
+//	public static void main(String[] args) {
+//		ServiceProcessorOF pos = new ServiceProcessorOF();
+//		AccountMaintenanceResponse res = new AccountMaintenanceResponse();
+//		try{
+//		res =  pos.changeCustNameOF(
+//				"006165008", 
+//				"JOHNSON ASHABI OLUWAKEMI", 
+//				"JOHNSON", "ASHABI", "OLUWAKEMI", "JOHNSON ASHABI", 
+//				"", "1", "2", "3", "lagos", "lagos", "12345678909", "12345678909", 
+//				"OJO", "2", "NG", "NG", "NG", "10-02-2018", "Mr", "IFEOMA", "UNION BANK", "36", 
+//				"", "12345678909", "BANKING", "123456", "BANKING", "VOTERS CARD", 
+//				"098766", "01-03-2019", "");
+//		}catch(Exception e){
+//			
+//		}
+//		System.out.println(res.getResponseMessage());
+//	}
 }

@@ -41,6 +41,7 @@ import com.union.bof.dao.TDLiquidationRequest;
 import com.union.bof.dao.TDLiquidationResponse;
 import com.union.bof.dao.UpdateBVNRequest;
 import com.union.bof.dao.UpdateBVNResponse;
+import com.union.bof.dao.changeCustDetailsOFRequest;
 import com.union.bof.utilities.AestheticsUtil;
 import com.union.gateway.types.TDBookingCreation;
 import com.unionbank.processor.CountryList;
@@ -110,10 +111,10 @@ public class AccountOpenService {
 
 	@WebMethod(operationName = "closeStandingInstruction")
 	public StandingInstructionCloseResponse closeStandingInstruction(@WebParam(name = "instrumentnumber") String instrumentnumber) {
-		ServiceProcessor serviceProcessor = new ServiceProcessor();
+		ServiceProcessorOF serviceProcessor = new ServiceProcessorOF();
 		StandingInstructionCloseResponse response = new StandingInstructionCloseResponse();
 		try {
-			response = serviceProcessor.closeStandingInstruction(instrumentnumber);
+			response = serviceProcessor.closeStandingInstructionOF(instrumentnumber);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setResponsecode("1");
@@ -645,43 +646,15 @@ public class AccountOpenService {
 	}
 	
 	@WebMethod(operationName = "changeCustDetailsOF")
-	public AccountMaintenanceResponse changeCustDetailsOF(@WebParam(name = "customerID") String customerID, @WebParam(name = "newAccountName") String newAccountName, @WebParam(name = "newFirstName") String newFirstName, @WebParam(name = "newMiddleName") String newMiddleName, @WebParam(name = "newLastName") String newLastName, @WebParam(name = "newShortName") String newShortName, @WebParam(name = "newCIC") String newCIC, @WebParam(name = "newAddress1") String newAddress1, @WebParam(name = "newAddress2") String newAddress2, @WebParam(name = "newAddress3") String newAddress3, @WebParam(name = "newCity") String newCity, @WebParam(name = "newState") String newState, @WebParam(name = "newMobileNumber") String newMobileNumber, @WebParam(name = "newOfficePhoneLand") String newOfficePhoneLand, @WebParam(name = "newLGA") String newLGA, @WebParam(name = "newMaritalStatus") String newMaritalStatus, @WebParam(name = "newNationality") String newNationality, @WebParam(name = "newCountry") String newCountry, @WebParam(name = "newCountryOfResidence") String newCountryOfResidence, @WebParam(name = "originatingBr") String originatingBr,
-			@WebParam(name = "dateofbirth") String var_dateofbirth,
-			@WebParam(name = "customerprefix") String var_customerprefix,
-			@WebParam(name = "mother_maiden_name") String var_mother_maiden_name,
-			@WebParam(name = "employer") String var_employer,
-			@WebParam(name = "employer_address1") String var_employer_address1,
-			@WebParam(name = "employer_address2") String var_employer_address2,
-			@WebParam(name = "employer_telephone") String var_employer_telephone,
-			@WebParam(name = "designation_profession") String var_designation_profession,
-			@WebParam(name = "tin") String var_tin,
-			@WebParam(name = "occupation") String var_occupation,
-			@WebParam(name = "typeofid_card") String var_typeofid_card,
-			@WebParam(name = "id_card_no") String var_id_card_no,
-			@WebParam(name = "id_iss_date") String var_id_iss_date,
-			@WebParam(name = "id_exp_date") String var_id_exp_date
-	) {
+	public AccountMaintenanceResponse changeCustDetailsOF(@WebParam(name = "changeCustDetailsRequest")changeCustDetailsOFRequest changeCustDetailsRequest) {
 		ServiceProcessorOF serviceProcessor = null;
 		AccountMaintenanceResponse response = null;
 		try {
 			response = new AccountMaintenanceResponse();
 			serviceProcessor = new ServiceProcessorOF();
-			response = serviceProcessor.changeCustNameOF(customerID, newAccountName, newFirstName, newMiddleName, newLastName, newShortName, newCIC, newAddress1, newAddress2, newAddress3, newCity, newState, newMobileNumber, newOfficePhoneLand, newLGA, newMaritalStatus, newNationality, newCountry, newCountryOfResidence,
-					var_dateofbirth,
-					var_customerprefix,
-					var_mother_maiden_name,
-					var_employer,
-					var_employer_address1,
-					var_employer_address2,
-					var_employer_telephone,
-					var_designation_profession,
-					var_tin,
-					var_occupation,
-					var_typeofid_card,
-					var_id_card_no,
-					var_id_iss_date,
-					var_id_exp_date);
+			response = serviceProcessor.changeCustNameOF(changeCustDetailsRequest);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return response;
 	}
