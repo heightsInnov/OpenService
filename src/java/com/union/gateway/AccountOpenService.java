@@ -298,14 +298,40 @@ public class AccountOpenService {
 		return response;
 	}
 
-	@WebMethod(operationName = "changeCustDetails")
-	public AccountMaintenanceResponse changeCustDetails(@WebParam(name = "customerID") String customerID, @WebParam(name = "newAccountName") String newAccountName, @WebParam(name = "newFirstName") String newFirstName, @WebParam(name = "newMiddleName") String newMiddleName, @WebParam(name = "newLastName") String newLastName, @WebParam(name = "newShortName") String newShortName, @WebParam(name = "newCIC") String newCIC, @WebParam(name = "newAddress1") String newAddress1, @WebParam(name = "newAddress2") String newAddress2, @WebParam(name = "newAddress3") String newAddress3, @WebParam(name = "newCity") String newCity, @WebParam(name = "newState") String newState, @WebParam(name = "newMobileNumber") String newMobileNumber, @WebParam(name = "newOfficePhoneLand") String newOfficePhoneLand, @WebParam(name = "newLGA") String newLGA, @WebParam(name = "newMaritalStatus") String newMaritalStatus, @WebParam(name = "newNationality") String newNationality, @WebParam(name = "newCountry") String newCountry, @WebParam(name = "newCountryOfResidence") String newCountryOfResidence, @WebParam(name = "originatingBr") String originatingBr) {
+	@WebMethod(operationName = "changeCustDetailsOF")
+	public AccountMaintenanceResponse changeCustDetails(
+			@WebParam(name = "customerID") String customerID, 
+			@WebParam(name = "newAccountName") String newAccountName, 
+			@WebParam(name = "newFirstName") String newFirstName, 
+			@WebParam(name = "newMiddleName") String newMiddleName, 
+			@WebParam(name = "newLastName") String newLastName, 
+			@WebParam(name = "newShortName") String newShortName, 
+			@WebParam(name = "newCIC") String newCIC, 
+			@WebParam(name = "newAddress1") String newAddress1, 
+			@WebParam(name = "newAddress2") String newAddress2, 
+			@WebParam(name = "newAddress3") String newAddress3, 
+			@WebParam(name = "newCity") String newCity, 
+			@WebParam(name = "newState") String newState, 
+			@WebParam(name = "newMobileNumber") String newMobileNumber, 
+			@WebParam(name = "newOfficePhoneLand") String newOfficePhoneLand, 
+			@WebParam(name = "newLGA") String newLGA, 
+			@WebParam(name = "newMaritalStatus") String newMaritalStatus, 
+			@WebParam(name = "newNationality") String newNationality, 
+			@WebParam(name = "newCountry") String newCountry, 
+			@WebParam(name = "newCountryOfResidence") String newCountryOfResidence, 
+			@WebParam(name = "originatingBr") String originatingBr
+	) {
 		ServiceProcessor serviceProcessor = null;
 		AccountMaintenanceResponse response = null;
 		try {
 			response = new AccountMaintenanceResponse();
 			serviceProcessor = new ServiceProcessor();
-			response = serviceProcessor.changeCustName(customerID, newAccountName, newFirstName, newMiddleName, newLastName, newShortName, newCIC, newAddress1, newAddress2, newAddress3, newCity, newState, newMobileNumber, newOfficePhoneLand, newLGA, newMaritalStatus, newNationality, newCountry, newCountryOfResidence);
+			response = serviceProcessor.changeCustName(
+					customerID, newAccountName, newFirstName, newMiddleName, newLastName, 
+					newShortName, newCIC, newAddress1, newAddress2, newAddress3, newCity, 
+					newState, newMobileNumber, newOfficePhoneLand, newLGA, newMaritalStatus, 
+					newNationality, newCountry, newCountryOfResidence
+			);
 		} catch (Exception e) {
 		}
 		return response;
@@ -645,7 +671,7 @@ public class AccountOpenService {
 		return var;
 	}
 	
-	@WebMethod(operationName = "changeCustDetailsOF")
+	@WebMethod(operationName = "changeCustDetails")
 	public AccountMaintenanceResponse changeCustDetailsOF(@WebParam(name = "changeCustDetailsRequest")changeCustDetailsOFRequest changeCustDetailsRequest) {
 		ServiceProcessorOF serviceProcessor = null;
 		AccountMaintenanceResponse response = null;

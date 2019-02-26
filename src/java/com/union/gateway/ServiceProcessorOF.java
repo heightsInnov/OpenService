@@ -24,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -51,15 +52,15 @@ public class ServiceProcessorOF {
 		Connection conn = null;
 		CallableStatement statusUpdate = null;
 		AccountMaintenanceResponse response = null;
-		System.out.println("***********DOB*********" + changeCustDetailsRequest.getVar_dateofbirth());
+		System.out.println("***********DOB*********" + changeCustDetailsRequest.getVar_dateofbirth() != null ? changeCustDetailsRequest.getVar_dateofbirth() : "00-00-0000");
 		try {
 			theConn = new GetConnection();
 			response = new AccountMaintenanceResponse();
 			conn = theConn.getPrConn().getConnection();
-//			conn = getPrConn();
+			//conn = getPrConn();
 			statusUpdate = conn.prepareCall("{ ? = call FCUBSLIVE.UBN_ACCOUNT_SERVICING_PKG.chg_cust_name_of(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
 			System.out.println("Customer ID " + changeCustDetailsRequest.getCustomerID());
-			statusUpdate.registerOutParameter(1, OracleTypes.VARCHAR);
+			statusUpdate.registerOutParameter(1, OracleTypes.INTEGER);
 			statusUpdate.registerOutParameter(21, OracleTypes.VARCHAR);
 			statusUpdate.registerOutParameter(22, OracleTypes.VARCHAR);
 			statusUpdate.setString(2, changeCustDetailsRequest.getCustomerID().trim());
@@ -94,7 +95,7 @@ public class ServiceProcessorOF {
 			statusUpdate.setString(33, changeCustDetailsRequest.getVar_typeofid_card().trim());
 			statusUpdate.setString(34, changeCustDetailsRequest.getVar_id_card_no().trim());
 			statusUpdate.setString(35, changeCustDetailsRequest.getVar_id_iss_date().trim());
-			statusUpdate.setString(36, changeCustDetailsRequest.getVar_id_exp_date().trim());
+			statusUpdate.setString(36, convertDate(changeCustDetailsRequest.getVar_id_exp_date().trim()));
 			statusUpdate.execute();
 			statusResponse = statusUpdate.getObject(1).toString();
 			statusMessage = statusUpdate.getObject(21).toString();
@@ -433,16 +434,18 @@ public class ServiceProcessorOF {
 	}
 
 	private String convertDate(String strDate) {
-		String convdate = "";
-		String dtformat = "dd-MM-yyyy";
-		SimpleDateFormat sdf = new SimpleDateFormat(dtformat);
-		try {
-			Date dt = sdf.parse(strDate);
-			SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MMM-yyyy");
-			convdate = sdf2.format(dt);
-			System.out.println(convdate);
-		} catch (Exception e) {
-			e.printStackTrace();
+		String convdate = null;
+		if (strDate != null && !strDate.isEmpty()) {
+			String dtformat = "dd-MM-yyyy";
+			SimpleDateFormat sdf = new SimpleDateFormat(dtformat);
+			try {
+				Date dt = sdf.parse(strDate);
+				SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MMM-yyyy");
+				convdate = sdf2.format(dt);
+				System.out.println(convdate);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return convdate;
 	}
@@ -465,14 +468,13 @@ public class ServiceProcessorOF {
 //		ServiceProcessorOF pos = new ServiceProcessorOF();
 //		AccountMaintenanceResponse res = new AccountMaintenanceResponse();
 //		try{
-//		res =  pos.changeCustNameOF(
-//				"006165008", 
+//		res =  pos.changeCustNameOF(new changeCustDetailsOFRequest("006165008", 
 //				"JOHNSON ASHABI OLUWAKEMI", 
 //				"JOHNSON", "ASHABI", "OLUWAKEMI", "JOHNSON ASHABI", 
-//				"", "1", "2", "3", "lagos", "lagos", "12345678909", "12345678909", 
+//				"", "1", "2", "3", "lagos", "lagos", "12345678909", "12345678909",
 //				"OJO", "2", "NG", "NG", "NG", "10-02-2018", "Mr", "IFEOMA", "UNION BANK", "36", 
 //				"", "12345678909", "BANKING", "123456", "BANKING", "VOTERS CARD", 
-//				"098766", "01-03-2019", "");
+//				"098766", "01-03-2019", ""));
 //		}catch(Exception e){
 //			
 //		}

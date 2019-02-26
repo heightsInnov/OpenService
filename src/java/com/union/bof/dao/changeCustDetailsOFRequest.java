@@ -45,6 +45,47 @@ public class changeCustDetailsOFRequest {
 	private String var_id_iss_date;
 	private String var_id_exp_date;
 
+	public changeCustDetailsOFRequest(){
+		super();
+	}
+			
+	public changeCustDetailsOFRequest(String customerID, String newAccountName, String newFirstName, String newMiddleName, String newLastName, String newShortName, String newCIC, String newAddress1, String newAddress2, String newAddress3, String newCity, String newState, String newMobileNumber, String newOfficePhoneLand, String newLGA, String newMaritalStatus, String newNationality, String newCountry, String newCountryOfResidence, String var_dateofbirth, String var_customerprefix, String var_mother_maiden_name, String var_employer, String var_employer_address1, String var_employer_address2, String var_employer_telephone, String var_designation_profession, String var_tin, String var_occupation, String var_typeofid_card, String var_id_card_no, String var_id_iss_date, String var_id_exp_date) {
+		this.customerID = customerID;
+		this.newAccountName = newAccountName;
+		this.newFirstName = newFirstName;
+		this.newMiddleName = newMiddleName;
+		this.newLastName = newLastName;
+		this.newShortName = newShortName;
+		this.newCIC = newCIC;
+		this.newAddress1 = newAddress1;
+		this.newAddress2 = newAddress2;
+		this.newAddress3 = newAddress3;
+		this.newCity = newCity;
+		this.newState = newState;
+		this.newMobileNumber = newMobileNumber;
+		this.newOfficePhoneLand = newOfficePhoneLand;
+		this.newLGA = newLGA;
+		this.newMaritalStatus = newMaritalStatus;
+		this.newNationality = newNationality;
+		this.newCountry = newCountry;
+		this.newCountryOfResidence = newCountryOfResidence;
+		this.var_dateofbirth = var_dateofbirth;
+		this.var_customerprefix = var_customerprefix;
+		this.var_mother_maiden_name = var_mother_maiden_name;
+		this.var_employer = var_employer;
+		this.var_employer_address1 = var_employer_address1;
+		this.var_employer_address2 = var_employer_address2;
+		this.var_employer_telephone = var_employer_telephone;
+		this.var_designation_profession = var_designation_profession;
+		this.var_tin = var_tin;
+		this.var_occupation = var_occupation;
+		this.var_typeofid_card = var_typeofid_card;
+		this.var_id_card_no = var_id_card_no;
+		this.var_id_iss_date = var_id_iss_date;
+		this.var_id_exp_date = var_id_exp_date;
+	}
+
+	
 	public String getCustomerID() {
 		return customerID;
 	}
