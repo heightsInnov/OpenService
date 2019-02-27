@@ -578,7 +578,7 @@ public class AccountOpenService {
 		return response;
 	}
 
-	@WebMethod(operationName = "reactivateAccount")
+	@WebMethod(operationName = "reactivateAccountOF")
 	public AccountReactivationResponse reactivateAccount(@WebParam(name = "reactivateacctrequest") AccountReactivationRequest reactivateacctrequest) {
 		AccountReactivationResponse response = new AccountReactivationResponse();
 		ServiceProcessor serviceProcessor = new ServiceProcessor();
@@ -685,7 +685,7 @@ public class AccountOpenService {
 		return response;
 	}
 	
-	@WebMethod(operationName = "reactivateAccountOF")
+	@WebMethod(operationName = "reactivateAccount")
 	public AccountReactivationResponse reactivateAccountOF(@WebParam(name = "reactivateacctrequest") AccountReactivationRequest reactivateacctrequest) {
 		AccountReactivationResponse response = new AccountReactivationResponse();
 		ServiceProcessorOF serviceProcessor = new ServiceProcessorOF();

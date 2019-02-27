@@ -436,7 +436,7 @@ public class ServiceProcessorOF {
 	private String convertDate(String strDate) {
 		String convdate = null;
 		if (strDate != null && !strDate.isEmpty()) {
-			String dtformat = "dd-MM-yyyy";
+			String dtformat = "dd/MM/yyyy";
 			SimpleDateFormat sdf = new SimpleDateFormat(dtformat);
 			try {
 				Date dt = sdf.parse(strDate);
@@ -478,6 +478,6 @@ public class ServiceProcessorOF {
 //		}catch(Exception e){
 //			
 //		}
-//		System.out.println(res.getResponseMessage());
+//		System.out.println(convertDate("02/02/1989"));
 //	}
 }
